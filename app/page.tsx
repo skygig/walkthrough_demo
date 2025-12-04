@@ -1,6 +1,7 @@
 import ActionBar from "@/components/ActionBar";
 import Feed from "@/components/Feed";
 import Navbar from "@/components/Navbar";
+import Walkthrough from "@/components/Walkthrough";
 
 export default function Home() {
   return (
@@ -10,6 +11,8 @@ export default function Home() {
         <Feed />
         <ActionBar />
       </div>
+
+      <Walkthrough />
     </div>
   );
 }

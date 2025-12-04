@@ -9,4 +9,9 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
+}
+
+button {
+  font-family: Arial, Helvetica, sans-serif;
 }
