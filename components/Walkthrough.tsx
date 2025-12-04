@@ -79,7 +79,7 @@ const Walkthrough = () => {
       : "top-[74px] right-[2px]";
 
   return (
-    <div className="w-[440px] h-[100vw] absolute top-0 left-1/2 -translate-x-1/2 z-10 p-3">
+    <div className="w-[440px] h-screen absolute top-0 left-1/2 -translate-x-1/2 z-10 p-3">
       <AnimatePresence mode="wait">
         <motion.div
           key={step}
