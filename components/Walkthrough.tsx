@@ -4,6 +4,7 @@ import { useAtom } from "jotai";
 import { stepAtom } from "@/store/step";
 import { closeAtom } from "@/store/close";
 import { motion, AnimatePresence } from "framer-motion";
+import { useEffect } from "react";
 
 const steps = [
   {
@@ -30,6 +31,38 @@ const steps = [
 const Walkthrough = () => {
   const [step, setStep] = useAtom(stepAtom);
   const [isClosed, setIsClosed] = useAtom(closeAtom);
+
+  useEffect(() => {
+    const completed = window.localStorage.getItem("tourCompleted");
+
+    if (completed === "true") {
+      setIsClosed(true);
+    } else {
+      setIsClosed(false);
+      setStep(0);
+    }
+  }, [setIsClosed, setStep]);
+
+  const finishTour = () => {
+    setIsClosed(true);
+    window.localStorage.setItem("tourCompleted", "true");
+  };
+
+  const handleNext = () => {
+    if (step === steps.length - 1) {
+      finishTour();
+    } else {
+      setStep((c) => c + 1);
+    }
+  };
+
+  const handleBack = () => {
+    setStep((c) => c - 1);
+  };
+
+  const handleSkip = () => {
+    finishTour();
+  };
 
   if (isClosed) return null;
 
@@ -68,7 +101,7 @@ const Walkthrough = () => {
           <div className="flex justify-between items-center px-2 pt-2 text-sm border-t border-gray-200">
             <button
               className="text-gray-500 cursor-pointer"
-              onClick={() => setIsClosed(true)}
+              onClick={handleSkip}
             >
               Skip
             </button>
@@ -77,16 +110,14 @@ const Walkthrough = () => {
               {step > 0 && (
                 <button
                   className="px-3 py-1.5 rounded-lg cursor-pointer bg-gray-200 text-slate-700"
-                  onClick={() => setStep((c) => c - 1)}
+                  onClick={handleBack}
                 >
                   Back
                 </button>
               )}
               <button
                 className="px-3 py-1.5 rounded-lg cursor-pointer bg-[rgb(20,141,255)] text-white"
-                onClick={() =>
-                  step === 3 ? setIsClosed(true) : setStep((c) => c + 1)
-                }
+                onClick={handleNext}
               >
                 {step === 3 ? "Finish" : "Next"}
               </button>

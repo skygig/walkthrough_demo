@@ -16,6 +16,7 @@ const Navbar = () => {
 
   const handleResetTour = () => {
     setStep(0);
+    window.localStorage.removeItem("tourCompleted");
     setIsClosed(false);
     setIsMenuOpen(false);
   };
