@@ -3,6 +3,7 @@
 import { useAtom } from "jotai";
 import { stepAtom } from "@/store/step";
 import { closeAtom } from "@/store/close";
+import { motion, AnimatePresence } from "framer-motion";
 
 const steps = [
   {
@@ -46,44 +47,53 @@ const Walkthrough = () => {
 
   return (
     <div className="w-[440px] h-[100vw] absolute top-0 left-1/2 -translate-x-1/2 z-10 p-3">
-      <div className={`${baseDetailsClasses} ${detailsPositionClasses}`}>
-        <div className="flex justify-between items-center mb-4">
-          <p className="font-semibold text-lg">{steps[step].title}</p>
-          <p className="bg-blue-100 text-blue-600 px-3 py-1.5 leading-3.5 rounded-2xl text-sm">
-            {step + 1} / 4
-          </p>
-        </div>
-
-        <p className="text-slate-500 mb-6">{steps[step].description}</p>
-
-        <div className="flex justify-between items-center px-2 pt-2 text-sm border-t border-gray-200">
-          <button
-            className="text-gray-500 cursor-pointer"
-            onClick={() => setIsClosed(true)}
-          >
-            Skip
-          </button>
-
-          <div className="flex gap-2">
-            {step > 0 && (
-              <button
-                className="px-3 py-1.5 rounded-lg cursor-pointer bg-gray-200 text-slate-700"
-                onClick={() => setStep((c) => c - 1)}
-              >
-                Back
-              </button>
-            )}
-            <button
-              className="px-3 py-1.5 rounded-lg cursor-pointer bg-[rgb(20,141,255)] text-white"
-              onClick={() =>
-                step === 3 ? setIsClosed(true) : setStep((c) => c + 1)
-              }
-            >
-              {step === 3 ? "Finish" : "Next"}
-            </button>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={step}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -12 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+          className={`${baseDetailsClasses} ${detailsPositionClasses}`}
+        >
+          <div className="flex justify-between items-center mb-4">
+            <p className="font-semibold text-lg">{steps[step].title}</p>
+            <p className="bg-blue-100 text-blue-600 px-3 py-1.5 leading-3.5 rounded-2xl text-sm">
+              {step + 1} / 4
+            </p>
           </div>
-        </div>
-      </div>
+
+          <p className="text-slate-500 mb-6">{steps[step].description}</p>
+
+          <div className="flex justify-between items-center px-2 pt-2 text-sm border-t border-gray-200">
+            <button
+              className="text-gray-500 cursor-pointer"
+              onClick={() => setIsClosed(true)}
+            >
+              Skip
+            </button>
+
+            <div className="flex gap-2">
+              {step > 0 && (
+                <button
+                  className="px-3 py-1.5 rounded-lg cursor-pointer bg-gray-200 text-slate-700"
+                  onClick={() => setStep((c) => c - 1)}
+                >
+                  Back
+                </button>
+              )}
+              <button
+                className="px-3 py-1.5 rounded-lg cursor-pointer bg-[rgb(20,141,255)] text-white"
+                onClick={() =>
+                  step === 3 ? setIsClosed(true) : setStep((c) => c + 1)
+                }
+              >
+                {step === 3 ? "Finish" : "Next"}
+              </button>
+            </div>
+          </div>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 };
